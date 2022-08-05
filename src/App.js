@@ -32,6 +32,8 @@ export default function App() {
       },
     };
     const newStream = await mediaDevices.getUserMedia(constraints);
+    console.log('newStream', newStream);
+  
     setLocalStream(newStream);
   };
 
