@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, SafeAreaView, Button, StyleSheet} from 'react-native';
+import { View, SafeAreaView, Button, StyleSheet } from 'react-native';
 
-import {RTCPeerConnection, RTCView, mediaDevices} from 'react-native-webrtc';
+import { RTCPeerConnection, RTCView, mediaDevices } from 'react-native-webrtc';
 
 export default function App() {
   const [localStream, setLocalStream] = React.useState();
@@ -21,25 +21,26 @@ export default function App() {
     const facingMode = isFront ? 'user' : 'environment';
     const constraints = {
       audio: true,
+      // video: false,
       video: {
         mandatory: {
-          minWidth: 500, // Provide your own width, height and frame rate here
-          minHeight: 300,
-          minFrameRate: 30,
+          minWidth: 1280, // Provide your own width, height and frame rate here
+          minHeight: 720,
+          minFrameRate: 24,
         },
         facingMode,
-        optional: videoSourceId ? [{sourceId: videoSourceId}] : [],
+        optional: videoSourceId ? [{ sourceId: videoSourceId }] : [],
       },
     };
     const newStream = await mediaDevices.getUserMedia(constraints);
     console.log('newStream', newStream);
-  
+
     setLocalStream(newStream);
   };
 
   const startCall = async () => {
     // You'll most likely need to use a STUN server at least. Look into TURN and decide if that's necessary for your project
-    const configuration = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]};
+    const configuration = { iceServers: [{ url: 'stun:stun.l.google.com:19302' }] };
     const localPC = new RTCPeerConnection(configuration);
     const remotePC = new RTCPeerConnection(configuration);
 
